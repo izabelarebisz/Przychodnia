@@ -15,10 +15,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Przychodnia</title>
 
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/datepicker.css">
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap-datepicker.js"></script> 
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.css" rel="stylesheet" id="bootstrap-css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<style type-"text/css">
 		#datepicker{
 			width: 200px;
@@ -33,15 +33,20 @@
 <body>
 	<h1 align="center">Data</h1>
 	<div id="datepicker" class="input-group date" data-date-formate="yyyy-mm-dd">
-		<input type="date" name="wybierz_date">
-		<span class="input-group-addon"><i class="glyphicon glyphicon-callendar"></i></span>
+		<input class="form-control" type="text" name="wybierz_date">
+		<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 	</div>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#datepicker").datepicker({
-				autoclose: true,
-			todayHighlight: true}
-			).datepicker('update',new Date())
+				//autoclose: true,
+	            todayHighlight: true,
+		        showOtherMonths: true,
+		        changeMonth: true,
+		        changeYear: true,
+		        orientation: "button"
+				}).datepicker('update',new Date())
 		});
 	</script>
 		
