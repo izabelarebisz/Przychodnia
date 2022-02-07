@@ -92,6 +92,16 @@
 			color: red;
 			margin-top: 20px;
 		}
+		form{
+			width: 300px;
+			height: 300px;
+			background-color: yellow;
+			 align-items: center;
+			 padding-top: 30px;
+		     padding-right: 30px;
+		     padding-bottom: 20px;
+		     padding-left: 30px;
+		}
 	
 	</style>
 </head>

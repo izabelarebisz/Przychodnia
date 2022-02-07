@@ -5,6 +5,9 @@
 		header('Location: index.php');
 		exit();
 	}
+	
+	echo "<p>Witaj ".$_SESSION['uzytkownik'].'![<a href="logout.php">Wyloguj się</a>]</p>';
+	echo "<p>Pesel ".$_SESSION['pesel']."!";
 ?>
 
 <!DOCTYPE HTML>
@@ -22,20 +25,36 @@
 	<style type-"text/css">
 		#datepicker{
 			width: 200px;
-			margin: 20px 20px 20px 20px;
+			margin: 20px 20px 20px 0px;
 		}
 		#datepicker > span:hover{
 			cursor: pointer;
 		}
+		.row{
+			display: flex;
+			align-items: stretch;
+			flex-wrap: wrap;
+			margin-left: 20px;
+			
+		}
+		.main{
+			margin-left: 40px;
+		}
+
+
 	</style>
 </head>
 
 <body>
-	<h1 align="center">Data</h1>
-	<div id="datepicker" class="input-group date" data-date-formate="yyyy-mm-dd">
-		<input class="form-control" type="text" name="wybierz_date">
-		<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+	<!-- kalendarz -->
+	<div class="main">
+		<h2>Data</h2>
+		<div id="datepicker" class="input-group date" data-date-formate="yyyy-mm-dd">
+			<input class="form-control" type="text" name="wybierz_date">
+			<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+		</div>
 	</div>
+	
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
@@ -48,13 +67,37 @@
 		        orientation: "button"
 				}).datepicker('update',new Date())
 		});
-	</script>
+	</script>			
 		
 		
-<?php
-	echo "<p>Witaj ".$_SESSION['uzytkownik'].'![<a href="logout.php">Wyloguj się</a>]</p>';
-	echo "<p>Pesel ".$_SESSION['pesel']."!";
-?> 
+			
+	<!-- wybór lekarza -->	
+	<?php
+		
+	require_once "polaczenie.php";
+	$polaczenie = @new mysqli($host,$db_user,$db_password,$db_name);
+
+	$lekarze = $polaczenie->query("SELECT * FROM lekarze");
+		
+	?> 
+	<div class="main">
+		<select id="opcje" name="lekarze">
+	</div>
+	<?php
+	
+		while($rows = $lekarze->fetch_assoc()) {
+			//$id = $rows['id'];
+			$imie = $rows['imie'];
+			$nazwisko = $rows['nazwisko'];
+			echo "<option value='$imie' style='background:lightblue;'>dr $imie $nazwisko</option>";
+		}
+		
+		$opcja = $_POST['opcje'];
+		
+		echo $opcja;
+	?> 
+	
+
 
 </body>
 </html>

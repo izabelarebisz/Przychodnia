@@ -18,20 +18,35 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Przychodnia</title>
+	<style type="text/css">
+		.log{
+			 align-items: center;
+			 padding-top: 30px;
+		     padding-right: 30px;
+		     padding-bottom: 20px;
+		     padding-left: 30px;			 
+			 width: 200px;
+			 height: 200px;
+			 margin-top: 50px;
+			 background-color: gray;			 
+		}
+	
+	</style>
 </head>
 
 <body>
-	
-	<form action="zaloguj.php" method="post">
-	
-		Login: <br /> <input type="text" name="login" /> <br />
-		Hasło: <br /> <input type="password" name="haslo" /> <br /><br />
-		<input type="submit" value="Zaloguj się" />
+	<div class="log">
+		<form action="zaloguj.php" method="post">
+		
+			Login: <br /> <input type="text" name="login" /> <br />
+			Hasło: <br /> <input type="password" name="haslo" /> <br /><br />
+			<input type="submit" value="Zaloguj się" />
 
-	</form>
-	<form action="zarejestruj.php" method="post">
-		<input type="submit" value="Zarejestruj się" />
-	</form>
+		</form>
+		<form action="zarejestruj.php" method="post">
+			<input type="submit" value="Zarejestruj się" />
+		</form>
+	</div>
  	
 <?php
 	if(isset($_SESSION['niezalogowano'])) echo $_SESSION['niezalogowano']; // jeżeli zmienna $_SESSION['niezalogowano'] jest już ustawiona
