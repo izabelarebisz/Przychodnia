@@ -8,6 +8,7 @@
 	
 	echo "<p>Witaj ".$_SESSION['uzytkownik'].'![<a href="logout.php">Wyloguj się</a>]</p>';
 	echo "<p>Pesel ".$_SESSION['pesel']."!";
+	
 ?>
 
 <!DOCTYPE HTML>
@@ -18,7 +19,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Przychodnia</title>
 
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.css" rel="stylesheet" id="bootstrap-css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -45,21 +46,69 @@
 	</style>
 </head>
 
+
+
+
+
+
+
 <body>
-	<!-- kalendarz -->
+
+	
+	
 	<div class="main">
-		<h2>Data</h2>
-		<div id="datepicker" class="input-group date" data-date-formate="yyyy-mm-dd">
-			<input class="form-control" type="text" name="wybierz_date">
-			<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-		</div>
+	
+	
+	
+		<!-- kalendarz -->		
+		<form action="" method="POST">
+			<h2>Data</h2>
+			<div id="datepicker" class="input-group date" data-date-formate="yyyy-mm-dd">
+				
+					<input name="Data" class="form-control" type="text" />		
+				
+				<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				
+			</div>
+		
+				
+				
+			<!-- wybór lekarza -->	
+			<select name="Lekarze">
+				<?php
+				require_once "polaczenie.php";
+				$polaczenie = @new mysqli($host,$db_user,$db_password,$db_name);
+
+				$lekarze = $polaczenie->query("SELECT * FROM lekarze");	
+					// uzupełniamy opcje kolejnymi imionami i nazwiskami lekarzy
+					while($rows = $lekarze->fetch_assoc()) {
+						$id = $rows['id_lekarza'];
+						$imie = $rows['imie'];
+						$nazwisko = $rows['nazwisko'];
+						echo "<option value='$id' style='background:lightblue;'>dr $imie $nazwisko</option>";
+					}
+					
+					$polaczenie->close();
+				?> 
+
+			</select>	
+			
+			<!-- znajdź termin wizyty -->	
+			<div>
+				<h2>test</h2>
+				<input type="submit" name="submit" value="Znajdź termin wizyty">
+			</div>		
+		</form>
+		
 	</div>
+	
 	
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#datepicker").datepicker({
-				//autoclose: true,
+				startDate: new Date(),
+				endDate: '+31d',
 	            todayHighlight: true,
 		        showOtherMonths: true,
 		        changeMonth: true,
@@ -67,35 +116,46 @@
 		        orientation: "button"
 				}).datepicker('update',new Date())
 		});
-	</script>			
-		
-		
-			
-	<!-- wybór lekarza -->	
-	<?php
-		
-	require_once "polaczenie.php";
-	$polaczenie = @new mysqli($host,$db_user,$db_password,$db_name);
 
-	$lekarze = $polaczenie->query("SELECT * FROM lekarze");
-		
-	?> 
-	<div class="main">
-		<select id="opcje" name="lekarze">
-	</div>
+	</script>			
+	
+	
+	
+	
 	<?php
 	
-		while($rows = $lekarze->fetch_assoc()) {
-			//$id = $rows['id'];
-			$imie = $rows['imie'];
-			$nazwisko = $rows['nazwisko'];
-			echo "<option value='$imie' style='background:lightblue;'>dr $imie $nazwisko</option>";
+		require_once "polaczenie.php";
+		$polaczenie = @new mysqli($host,$db_user,$db_password,$db_name);
+	
+		//$data1 = date('yyyy-mm-dd', strtotime($_POST['Data']));
+		
+		
+		// pobieramy wybraną przez pacjenta datę($data) i lekarza($selected)
+		if(isset($_POST['submit'])){
+			if(!empty($_POST['Lekarze'])) {
+				// zaznaczony lekarz
+				$selected = $_POST['Lekarze'];
+				echo '<p>Wybrany lekarz: '.$selected.'</p>';
+				// zaznaczona data
+				$data = $_POST['Data'];
+				echo '<p>Wybrana data: '.$data.'</p>';
+			
+			} else {
+				echo 'Please select the value.';
+			}
+			
+			$godzina = "9:30";
+			$id_pacjenta = 2;
+			
+			$polaczenie->query("INSERT INTO wizyty VALUES ('$selected', '$id_pacjenta', '$data', '$godzina')");
 		}
 		
-		$opcja = $_POST['opcje'];
-		
-		echo $opcja;
-	?> 
+
+	
+		$polaczenie->close();
+	?>
+	
+	
 	
 
 
