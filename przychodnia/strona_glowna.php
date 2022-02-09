@@ -9,6 +9,7 @@
 	echo "<p>Witaj ".$_SESSION['uzytkownik'].'![<a href="logout.php">Wyloguj się</a>]</p>';
 	echo "<p>Pesel ".$_SESSION['pesel']."!";
 	
+	
 ?>
 
 <!DOCTYPE HTML>
@@ -97,7 +98,8 @@
 			<div>
 				<h2>test</h2>
 				<input type="submit" name="submit" value="Znajdź termin wizyty">
-			</div>		
+			</div>	
+					
 		</form>
 		
 	</div>
@@ -135,24 +137,111 @@
 			if(!empty($_POST['Lekarze'])) {
 				// zaznaczony lekarz
 				$selected = $_POST['Lekarze'];
-				echo '<p>Wybrany lekarz: '.$selected.'</p>';
+				//echo '<p>Wybrany lekarz: '.$selected.'</p>';
 				// zaznaczona data
 				$data = $_POST['Data'];
-				echo '<p>Wybrana data: '.$data.'</p>';
+				//echo '<p>Wybrana data: '.$data.'</p>';
 			
 			} else {
-				echo 'Please select the value.';
+				echo 'Wybierz specjalistę.';
+			}			
+		
+			// informacje
+			
+			echo "<div class='main'>";
+			$specjalista = $polaczenie->query("SELECT * FROM lekarze WHERE id_lekarza='$selected' ");
+			while($rows = $specjalista->fetch_assoc()){
+				echo "<h2>".$rows['imie']." ".$rows['nazwisko']."</h2>";
+				echo "<h3>".$rows['specjalnosc']."</h3>";
+			}
+			echo "<h2>Dzień '$data'</h2></div>";
+			
+			
+			// aktualizacja bazy danych - usunięcie wizyt z minionych dni
+			$now = new DateTime();
+			$now = $now->format('m/d/Y'); 
+			$nieaktualne = $polaczenie->query("SELECT * FROM wizyty");					
+			while($rows = $nieaktualne->fetch_assoc()) {
+				$kiedy = $rows['data']; // sprawdzamy datę każdej wizyty
+				if(strtotime($kiedy)<strtotime($now)) $polaczenie->query("DELETE FROM wizyty WHERE data='$kiedy' "); // i usuwamy nieaktualne
+			} 
+				
+			
+			
+			$id_pacjenta = $_SESSION['id_pacjenta'];
+			
+			// $data - data wizyty $selected - id lekarza $id_pacjenta - id pacjenta
+			
+			
+			// wolne godziny wybranego lekarza w wybrany dzień
+			
+			$wszystkie_godziny = array("9:00","9:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30");			
+			$wizyty_lekarza = $polaczenie->query("SELECT * FROM wizyty WHERE id_lekarza='$selected' AND data='$data'");	// wszystkie wizyty tego lekarza w dany dzień			
+			$zajete = array();
+			while($rows = $wizyty_lekarza->fetch_assoc()) {
+				array_push($zajete, $rows['godzina']);
+				//echo "</br>test:".$zajeta."</br>";
+			}
+			/*
+			echo "</br>Zajete godziny: </br>";
+			
+			for($i=0;$i<sizeof($zajete);$i++){
+				echo "Godz. ".$zajete[$i]."</br>";
+			}
+			*/
+				
+
+			
+			$dostepne_godziny = array();
+			for($i=0;$i<sizeof($wszystkie_godziny);$i++){
+				if(czyWolna($zajete,$wszystkie_godziny[$i])==1) array_push($dostepne_godziny, $wszystkie_godziny[$i]); // 
+				
 			}
 			
-			$godzina = "9:30";
-			$id_pacjenta = 2;
+			echo "<div class='main'><form>";
+			for($i=0;$i<sizeof($dostepne_godziny);$i++){
+				echo "<input type='radio' name='godz' id='godz' value=". $dostepne_godziny[$i] ."/>&nbsp;&nbsp;" . $dostepne_godziny[$i] . "&nbsp;&nbsp;&nbsp;&nbsp;";
+				//if($i!=0 && $i%2==0) echo "</br>";
+			}
+			echo "</form></div>";
+
+			/*
+			echo "</br>Dostepne godziny: </br>";
+			for($i=0;$i<sizeof($dostepne_godziny);$i++){
+				echo "Godz. ".$dostepne_godziny[$i]."</br>";
+			}
 			
-			$polaczenie->query("INSERT INTO wizyty VALUES ('$selected', '$id_pacjenta', '$data', '$godzina')");
+			echo "</br>Zajete godziny: </br>";
+			
+			for($i=0;$i<sizeof($zajete);$i++){
+				echo "Godz. ".$zajete[$i]."</br>";
+			}
+			*/
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			//$polaczenie->query("INSERT INTO wizyty VALUES ('$selected', '$id_pacjenta', '$data', '$godzina')");
 		}
 		
 
 	
+			
+			
 		$polaczenie->close();
+		
+		function czyWolna($zajete,$sprawdz){
+			for($i=0;$i<sizeof($zajete);$i++){
+				if($zajete[$i]==$sprawdz) return 0;
+			} return 1; // tej godziny nie znaleziono wśród zajętych - jest wolna - może zostać wyświetlona jako jedna z proponowanych
+		}
 	?>
 	
 	

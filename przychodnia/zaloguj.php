@@ -29,7 +29,7 @@
 				if(password_verify($haslo,$wiersz['haslo'])){ // hasło zahashowane
 					$SESSION['zalogowano'] = true;
 		
-					$_SESSION['id'] = $wiersz['id'];
+					$_SESSION['id_pacjenta'] = $wiersz['id_pacjenta'];
 					$_SESSION['uzytkownik'] = $wiersz['imie']." ".$wiersz['nazwisko'];
 					$_SESSION['pesel'] = $wiersz['pesel'];
 					
