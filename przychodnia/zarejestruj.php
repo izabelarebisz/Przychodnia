@@ -62,7 +62,7 @@
 				if($walidacja==true) {
 					if ($polaczenie->query("INSERT INTO pacjenci VALUES (NULL, '$imie', '$nazwisko', '$pesel', '$login', '$haslo')")) header('Location: zarejestrowano_pomyslnie.php');
 					
-				} else throw new Exception($polaczenie->error);
+				} else throw new Exception();
 				
 				$polaczenie->close();
 			}
