@@ -47,22 +47,13 @@
 	</style>
 </head>
 
-
-
-
-
-
-
 <body>
-
-	
 	
 	<div class="main">
-	
-	
+
 	
 		<!-- kalendarz -->		
-		<form action="" method="POST">
+		<form action="" method="POST"> 
 			<h2>Data</h2>
 			<div id="datepicker" class="input-group date" data-date-formate="yyyy-mm-dd">
 				
@@ -96,8 +87,9 @@
 			
 			<!-- znajdź termin wizyty -->	
 			<div>
-				<h2>test</h2>
-				<input type="submit" name="submit" value="Znajdź termin wizyty">
+				
+				<input type="submit" name="submit" value="Znajdź termin wizyty"/>
+				
 			</div>	
 					
 		</form>
@@ -141,21 +133,17 @@
 				// zaznaczona data
 				$data = $_POST['Data'];
 				//echo '<p>Wybrana data: '.$data.'</p>';
+				
+				$_SESSION['data'] = $data;
+				$_SESSION['selected'] = $selected;
+				
+				header('Location: godzina.php');
 			
 			} else {
 				echo 'Wybierz specjalistę.';
 			}			
+		}
 		
-			// informacje
-			
-			echo "<div class='main'>";
-			$specjalista = $polaczenie->query("SELECT * FROM lekarze WHERE id_lekarza='$selected' ");
-			while($rows = $specjalista->fetch_assoc()){
-				echo "<h2>".$rows['imie']." ".$rows['nazwisko']."</h2>";
-				echo "<h3>".$rows['specjalnosc']."</h3>";
-			}
-			echo "<h2>Dzień '$data'</h2></div>";
-			
 			
 			// aktualizacja bazy danych - usunięcie wizyt z minionych dni
 			$now = new DateTime();
@@ -168,72 +156,30 @@
 				
 			
 			
-			$id_pacjenta = $_SESSION['id_pacjenta'];
-			
-			// $data - data wizyty $selected - id lekarza $id_pacjenta - id pacjenta
-			
-			
-			// wolne godziny wybranego lekarza w wybrany dzień
-			
-			$wszystkie_godziny = array("9:00","9:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30");			
-			$wizyty_lekarza = $polaczenie->query("SELECT * FROM wizyty WHERE id_lekarza='$selected' AND data='$data'");	// wszystkie wizyty tego lekarza w dany dzień			
-			$zajete = array();
-			while($rows = $wizyty_lekarza->fetch_assoc()) {
-				array_push($zajete, $rows['godzina']);
-				//echo "</br>test:".$zajeta."</br>";
-			}
-			/*
-			echo "</br>Zajete godziny: </br>";
-			
-			for($i=0;$i<sizeof($zajete);$i++){
-				echo "Godz. ".$zajete[$i]."</br>";
-			}
-			*/
-				
 
-			
-			$dostepne_godziny = array();
-			for($i=0;$i<sizeof($wszystkie_godziny);$i++){
-				if(czyWolna($zajete,$wszystkie_godziny[$i])==1) array_push($dostepne_godziny, $wszystkie_godziny[$i]); // 
-				
-			}
-			
-			echo "<div class='main'><form>";
-			for($i=0;$i<sizeof($dostepne_godziny);$i++){
-				echo "<input type='radio' name='godz' id='godz' value=". $dostepne_godziny[$i] ."/>&nbsp;&nbsp;" . $dostepne_godziny[$i] . "&nbsp;&nbsp;&nbsp;&nbsp;";
-				//if($i!=0 && $i%2==0) echo "</br>";
-			}
-			echo "</form></div>";
-
-			/*
-			echo "</br>Dostepne godziny: </br>";
-			for($i=0;$i<sizeof($dostepne_godziny);$i++){
-				echo "Godz. ".$dostepne_godziny[$i]."</br>";
-			}
-			
-			echo "</br>Zajete godziny: </br>";
-			
-			for($i=0;$i<sizeof($zajete);$i++){
-				echo "Godz. ".$zajete[$i]."</br>";
-			}
-			*/
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			
 			//$polaczenie->query("INSERT INTO wizyty VALUES ('$selected', '$id_pacjenta', '$data', '$godzina')");
+			
+			
+			
+	  // koniec przycisku "znajdz termin wizyty"
+			
+	
+		
+		
+		
+		/*
+		
+		if(isset($_POST['zarezerwuj'])){
+			$godzina = $_POST['godz'];
+			
+			echo "hejoooo";
+			echo $godzina;
+			
 		}
 		
-
 	
-			
+			*/
 			
 		$polaczenie->close();
 		
@@ -244,9 +190,6 @@
 		}
 	?>
 	
-	
-	
-
 
 </body>
 </html>
