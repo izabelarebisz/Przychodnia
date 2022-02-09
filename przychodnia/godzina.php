@@ -45,6 +45,51 @@
 
 
 	</style>
+	<style media="screen">
+	  body{
+		margin: 0;
+		padding: 0;
+		font-family: sans-serif;
+		background-image: url(gradient.jpg);
+		background-size: cover;
+		color: #fff;
+	  }
+	  .box{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		width: 400px;
+		padding: 40px;
+		background: rgba(0, 0, 0, 0.6);
+		box-sizing: border-box;
+		box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+		border-radius: 10px;
+		text-align: center;
+	  }
+	  .radioBox{
+		  margin-bottom: 30px;	
+		  
+	  }
+	  input[type="radio"]:label {
+		  color: #fff;
+	  }
+	  .buttonZ{
+		  text-align: center;
+	  }
+	  .box h2, h3{
+		margin: 0 0 30px;
+		padding: 0px;
+		color: #fff;
+	
+	  }
+	  .row{
+		   display: flex;
+	  }
+	  .column{
+		  flex: 25%;
+	  }
+	  </style>
 </head>
 
 <body>	
@@ -59,13 +104,13 @@
 		
 		// informacje
 		
-		echo "<div class='main'>";
+		echo "<div class='box'>";
 		$specjalista = $polaczenie->query("SELECT * FROM lekarze WHERE id_lekarza='$selected' ");
 		while($rows = $specjalista->fetch_assoc()){
-			echo "<h2>".$rows['imie']." ".$rows['nazwisko']."</h2>";
+			echo "<h2>dr ".$rows['imie']." ".$rows['nazwisko']."</h2>";
 			echo "<h3>".$rows['specjalnosc']."</h3>";
 		}
-		echo "<h2>Dzień '$data'</h2></div>";
+		echo "<h2>Dzień '$data'</h2>";
 
 		
 		$id_pacjenta = $_SESSION['id_pacjenta'];
@@ -117,14 +162,25 @@
 		//$_SESSION['godzina'] = $godzina;
 	?>
 	
-	<div>
+	
 		<form action="" method="POST">
+		
 			<?php
+			
+			echo "<div class='radioBox'>";
+			echo "<table>";
 				for($i=0;$i<sizeof($dostepne_godziny);$i++){
-					echo "<input type='radio' name='godz' value=". $dostepne_godziny[$i] .">&nbsp;&nbsp;" . $dostepne_godziny[$i] . "&nbsp;&nbsp;&nbsp;&nbsp;";
-				}			
 					
+					if($i!=0 && $i%4==0) echo "</tr>";
+					if($i%4==0 && $i!=sizeof($dostepne_godziny)) echo "<tr>";
+					echo "<td width='100px'><input type='radio' name='godz' value=". $dostepne_godziny[$i] .">&nbsp;&nbsp;" . $dostepne_godziny[$i] . "</td>";
+				}			
+			echo "</tr></table></div>";
 			?>
+			<div class="buttonZ">
+				<button name="Button" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"> Zarezerwuj </button>
+			</div>
+		</div>
 
 			<!-- Modal -->
 			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -144,7 +200,7 @@
 								Specjalista: </br>
 								<hr>
 								Data: </br>
-								Godzina: </br>
+								<!--Godzina: </br>-->
 							  </div>
 							  <div class="col-4 col-sm-6">
 								<?php
@@ -153,13 +209,13 @@
 									$n = $_SESSION['kto'];
 									$s = $_SESSION['spec'];
 									$d = strval($_SESSION['data']);
-									$g = strval($_SESSION['godzina']);
+									//$g = strval($_SESSION['godzina']);
 									$d = $d[3].$d[4].".".$d[0].$d[1].".".$d[6].$d[7].$d[8].$d[9];
 									echo $n."</br>";
 									echo $s."</br>";
 									echo "<hr>";
 									echo $d."</br>";
-									echo $g."</br>";
+									//echo $g."</br>";
 								
 								?>
 							  </div>
@@ -173,8 +229,8 @@
 				</div>
 			  </div>
 			</div>
+			<!-- koniec modalu -->
 			
-			<button name="Button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"> Zarezerwuj (włącz modal) </button>
 		</form>
 	</div>
 

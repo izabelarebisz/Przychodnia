@@ -46,6 +46,36 @@
 
 
 	</style>
+	<style media="screen">
+	  body{
+		margin: 0;
+		padding: 0;
+		font-family: sans-serif;
+		background-image: url(gradient.jpg);
+		background-size: cover;
+	  }
+	  .box{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		width: 400px;
+		padding: 40px;
+		background: rgba(0, 0, 0, 0.6);
+		box-sizing: border-box;
+		box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+		border-radius: 10px;
+	  }
+	  .box h2{
+		margin: 0 0 30px;
+		padding: 0px;
+		color: #fff;
+	
+	  }
+	  .box .input-box{
+		position: relative;
+	  }
+	  </style>
 </head>
 
 <body>
@@ -55,43 +85,46 @@
 	
 		<!-- kalendarz -->		
 		<form action="" method="POST"> 
-			<h2>Data</h2>
-			<div id="datepicker" class="input-group date" data-date-formate="yyyy-mm-dd">
-				
-					<input name="Data" class="form-control" type="text" />		
-				
-				<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-				
-			</div>
+			<div class="box">
+				<h2>Data</h2>
+				<div id="datepicker" class="input-group date" data-date-formate="yyyy-mm-dd">
+					
+						<input name="Data" class="form-control" type="text" />		
+					
+					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+					
+				</div>
+			
 		
 				
-				
-			<!-- wybór lekarza -->	
-			<select name="Lekarze">
-				<?php
-				require_once "polaczenie.php";
-				$polaczenie = @new mysqli($host,$db_user,$db_password,$db_name);
-
-				$lekarze = $polaczenie->query("SELECT * FROM lekarze");	
-					// uzupełniamy opcje kolejnymi imionami i nazwiskami lekarzy
-					while($rows = $lekarze->fetch_assoc()) {
-						$id = $rows['id_lekarza'];
-						$imie = $rows['imie'];
-						$nazwisko = $rows['nazwisko'];
-						echo "<option value='$id' style='background:lightblue;'>dr $imie $nazwisko</option>";
-					}
 					
-					$polaczenie->close();
-				?> 
+				<!-- wybór lekarza -->	
+				<select name="Lekarze">
+					<?php
+					require_once "polaczenie.php";
+					$polaczenie = @new mysqli($host,$db_user,$db_password,$db_name);
 
-			</select>	
-			
-			<!-- znajdź termin wizyty -->	
-			<div>
+					$lekarze = $polaczenie->query("SELECT * FROM lekarze");	
+						// uzupełniamy opcje kolejnymi imionami i nazwiskami lekarzy
+						while($rows = $lekarze->fetch_assoc()) {
+							$id = $rows['id_lekarza'];
+							$imie = $rows['imie'];
+							$nazwisko = $rows['nazwisko'];
+							echo "<option value='$id' style='background:lightblue;'>dr $imie $nazwisko</option>";
+						}
+						
+						$polaczenie->close();
+					?> 
+
+				</select>	
 				
-				<input type="submit" name="submit" value="Znajdź termin wizyty"/>
-				
-			</div>	
+				<!-- znajdź termin wizyty -->	
+				<div>
+					
+					<input type="submit" name="submit" value="Znajdź termin wizyty"/>
+					
+				</div>	
+			</div>
 					
 		</form>
 		

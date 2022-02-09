@@ -18,8 +18,8 @@
 <p>udało się :) </p>
 
 <form action="index.php" method="post">
-		<input type="submit" value="Zaloguj się" />
-	</form>
+	<input type="submit" value="Zaloguj się" />
+</form>
 
 </body>
 </html>
