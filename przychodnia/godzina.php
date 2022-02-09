@@ -19,7 +19,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Przychodnia</title>
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<style type-"text/css">
 		#datepicker{
 			width: 200px;
@@ -38,6 +41,7 @@
 		.main{
 			margin-left: 40px;
 		}
+	
 
 
 	</style>
@@ -118,16 +122,62 @@
 			<?php
 				for($i=0;$i<sizeof($dostepne_godziny);$i++){
 					echo "<input type='radio' name='godz' value=". $dostepne_godziny[$i] .">&nbsp;&nbsp;" . $dostepne_godziny[$i] . "&nbsp;&nbsp;&nbsp;&nbsp;";
-				}
+				}			
 					
 			?>
 
-			<input type="submit" name="zarezerwuj" value="Zarezerwuj termin wizyty">
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Szczegóły wizyty</h5>
+					<button type="button" class="close" data-dismiss="modal" label="Close">
+					  <span hidden="true">&times;</span>
+					</button>
+				  </div>
+				  <div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+							  <div class="col-8 col-sm-6">
+								Lekarz: </br>
+								Specjalista: </br>
+								<hr>
+								Data: </br>
+								Godzina: </br>
+							  </div>
+							  <div class="col-4 col-sm-6">
+								<?php
+									
+									//$_SESSION['godzina'] = $_POST['godz']; 
+									$n = $_SESSION['kto'];
+									$s = $_SESSION['spec'];
+									$d = strval($_SESSION['data']);
+									$g = strval($_SESSION['godzina']);
+									$d = $d[3].$d[4].".".$d[0].$d[1].".".$d[6].$d[7].$d[8].$d[9];
+									echo $n."</br>";
+									echo $s."</br>";
+									echo "<hr>";
+									echo $d."</br>";
+									echo $g."</br>";
+								
+								?>
+							  </div>
+							</div>
+						</div>				
+				  </div>
+				  <div class="modal-footer">				  
+					<input type="submit" class="btn btn-outline-success" name="zarezerwuj" value="Zarezerwuj termin wizyty">
+					<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Zamknij</button>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			
+			<button name="Button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"> Zarezerwuj (włącz modal) </button>
 		</form>
 	</div>
-	
-	
-	
+
 	<?php
 	
 		if(isset($_POST['zarezerwuj'])){	
@@ -147,6 +197,8 @@
 				$polaczenie->query("INSERT INTO wizyty VALUES (null, '$selected', '$id_pacjenta', '$data', '$godzina')");
 				
 				$polaczenie->close();
+				
+				header('Location: strona_glowna.php');
 			} else {
 				echo "Proszę wybrać godzinę";
 			}

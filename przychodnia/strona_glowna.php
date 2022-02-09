@@ -25,6 +25,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<style type-"text/css">
+
 		#datepicker{
 			width: 200px;
 			margin: 20px 20px 20px 0px;
@@ -121,9 +122,17 @@
 		require_once "polaczenie.php";
 		$polaczenie = @new mysqli($host,$db_user,$db_password,$db_name);
 	
-		//$data1 = date('yyyy-mm-dd', strtotime($_POST['Data']));
 		
-		
+		// aktualizacja bazy danych - usunięcie wizyt z minionych dni
+			$now = new DateTime();
+			$now = $now->format('m/d/Y'); 
+			$nieaktualne = $polaczenie->query("SELECT * FROM wizyty");					
+			while($rows = $nieaktualne->fetch_assoc()) {
+				$kiedy = $rows['data']; // sprawdzamy datę każdej wizyty
+				if(strtotime($kiedy)<strtotime($now)) $polaczenie->query("DELETE FROM wizyty WHERE data='$kiedy' "); // i usuwamy nieaktualne
+			} 
+			
+			
 		// pobieramy wybraną przez pacjenta datę($data) i lekarza($selected)
 		if(isset($_POST['submit'])){
 			if(!empty($_POST['Lekarze'])) {
@@ -137,51 +146,24 @@
 				$_SESSION['data'] = $data;
 				$_SESSION['selected'] = $selected;
 				
+				echo $selected;
+				$dane = $polaczenie->query("SELECT * FROM lekarze WHERE id_lekarza='$selected'");					
+				while($rows = $dane->fetch_assoc()) {
+					$_SESSION['kto'] = $rows['imie']." ".$rows['nazwisko'];
+					$_SESSION['spec'] = $rows['specjalnosc'];
+				}
+	
+	
+				$polaczenie->close();
 				header('Location: godzina.php');
 			
 			} else {
 				echo 'Wybierz specjalistę.';
+				$polaczenie->close();
 			}			
 		}
-		
-			
-			// aktualizacja bazy danych - usunięcie wizyt z minionych dni
-			$now = new DateTime();
-			$now = $now->format('m/d/Y'); 
-			$nieaktualne = $polaczenie->query("SELECT * FROM wizyty");					
-			while($rows = $nieaktualne->fetch_assoc()) {
-				$kiedy = $rows['data']; // sprawdzamy datę każdej wizyty
-				if(strtotime($kiedy)<strtotime($now)) $polaczenie->query("DELETE FROM wizyty WHERE data='$kiedy' "); // i usuwamy nieaktualne
-			} 
 				
-			
-			
-
-			
-			//$polaczenie->query("INSERT INTO wizyty VALUES ('$selected', '$id_pacjenta', '$data', '$godzina')");
-			
-			
-			
-	  // koniec przycisku "znajdz termin wizyty"
-			
-	
 		
-		
-		
-		/*
-		
-		if(isset($_POST['zarezerwuj'])){
-			$godzina = $_POST['godz'];
-			
-			echo "hejoooo";
-			echo $godzina;
-			
-		}
-		
-	
-			*/
-			
-		$polaczenie->close();
 		
 		function czyWolna($zajete,$sprawdz){
 			for($i=0;$i<sizeof($zajete);$i++){
