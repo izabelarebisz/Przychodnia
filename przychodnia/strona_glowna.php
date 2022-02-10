@@ -4,11 +4,12 @@
 	if(isset($_SESSION['niezalogowano'])){
 		header('Location: index.php');
 		exit();
-	}
-	
-	echo "<p>Witaj ".$_SESSION['uzytkownik'].'![<a href="logout.php">Wyloguj się</a>]</p>';
-	echo "<p>Pesel ".$_SESSION['pesel']."!";
-	
+	}	
+		
+	echo "Witaj ".$_SESSION['uzytkownik'].'!</br>';	
+	echo "<a href='moje_wizyty.php'>Moje wizyty</a></br>";
+	echo "<a href='moje_informacje.php'>Moje informacje</a></br>";
+	echo "<a href='logout.php'>Wyloguj się</a>";
 	
 ?>
 
@@ -78,6 +79,15 @@
 	  .margin{
 		  margin-top: 30px;
 	  }
+	  .buttonMenu{
+		  margin-left: 5px;
+		  margin-top: 5px;
+		background: #a48adb;
+		border-bottom: 1px solid #fff;
+		box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+		line-height: 0.5;
+	  }
+	  
 	  </style>
 </head>
 

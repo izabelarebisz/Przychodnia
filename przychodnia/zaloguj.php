@@ -27,11 +27,11 @@
 			if($ile_zalogowanych==1) { //1 użytkownik się zalogował - login i hasło zostały znalezione
 				$wiersz = $wynik->fetch_assoc();
 				if(password_verify($haslo,$wiersz['haslo'])){ // hasło zahashowane
-					$SESSION['zalogowano'] = true;
-		
+					$SESSION['zalogowano'] = true;		
 					$_SESSION['id_pacjenta'] = $wiersz['id_pacjenta'];
 					$_SESSION['uzytkownik'] = $wiersz['imie']." ".$wiersz['nazwisko'];
 					$_SESSION['pesel'] = $wiersz['pesel'];
+					$_SESSION['login'] = $wiersz['login'];
 					
 					unset($_SESSION['niezalogowano']); // usuń zmienną sesji 'niezalogowano' jeśli udało się zalogować
 					$wynik->free_result();
