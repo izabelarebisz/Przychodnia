@@ -62,7 +62,7 @@
 				if($walidacja==true) {
 					if ($polaczenie->query("INSERT INTO pacjenci VALUES (NULL, '$imie', '$nazwisko', '$pesel', '$login', '$haslo')")) header('Location: zarejestrowano_pomyslnie.php');
 					
-				} else throw new Exception();
+				} else throw new Exception($polaczenie->error);
 				
 				$polaczenie->close();
 			}
@@ -87,39 +87,117 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Załóż konto</title>
-	<style>
-		.error {
-			color: red;
-			margin-top: 20px;
-		}
-		form{
-			width: 300px;
-			height: 300px;
-			background-color: yellow;
-			 align-items: center;
-			 padding-top: 30px;
-		     padding-right: 30px;
-		     padding-bottom: 20px;
-		     padding-left: 30px;
-		}
-	
-	</style>
+	<style media="screen">
+	  body{
+		margin: 0;
+		padding: 0;
+		font-family: sans-serif;
+		background-image: url(gradient.jpg);
+		background-size: cover;
+	  }
+	  .box{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		width: 400px;
+		padding: 40px;
+		background: rgba(0, 0, 0, 0.6);
+		box-sizing: border-box;
+		box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+		border-radius: 10px;
+	  }
+	  .box h2{
+		margin: 0 0 30px;
+		padding: 0px;
+		color: #fff;
+		text-align: center;
+	  }
+	  .box .input-box{
+		position: relative;
+	  }
+	  .box .input-box input{
+		width: 100%;
+		padding: 10px 0px;
+		font-size: 16px;
+		color: #fff;
+		letter-spacing: 1px;
+		margin-bottom: 30px;
+		border: none;
+		outline: none;
+		background: transparent;
+		border-bottom: 1px solid #fff;
+	  }
+	  .box .input-box label{
+		position: absolute;
+		top: 0;
+		left: 0;
+		letter-spacing: 1px;
+		padding: 10px 0px;
+		font-size: 16px;
+		color: #fff;
+		transition: .5s;
+	  }
+	  .box .input-box input:focus ~ label,
+	  .box .input-box input:valid ~ label{
+		top: -18px;
+		left: 0px;
+		color: #03a9f4;
+		font-size: 12px;
+	  }
+	  .box input[type="submit"]{
+		background: transparent;
+		border: none;
+		outline: none;
+		color: #fff;
+		background: #227be3;
+		padding: 10px 20px;
+		border-radius: 5px;
+		cursor:pointer;
+		margin-top: 20px;
+	  }
+	  .box input[type="submit"]:hover{
+		background-color: #3067b9;
+	  }
+
+  </style>
 </head>
 
 <body>
-	
-	<form method="post" >
-		
-		Imię: <input type="text" name="imie"/> <br/>
-		Nazwisko: <input type="text" name="nazwisko"/> <br/>
-		Pesel: <input type="text" name="pesel"/> <br/>
-		Login: <input type="text" name="login"/> <br/>
-		Hasło: <input type="password" name="haslo"/> <br/>
-		Powtórz hasło: <input type="password" name="haslo2"/> <br/>
-		
-		<input type="submit" value="Zarejestruj się"/>
-		
-		<?php
+
+	<div class="box">
+	<h2>Zarejestruj się</h2>
+		<form action="" method="post">
+			<div class="input-box">
+				<input type="text" name="imie" autocomplete="off" required />
+				<label for="">Imię</label>
+			</div>
+			<div class="input-box">
+				<input type="text" name="nazwisko" autocomplete="off" required />
+				<label for="">Nazwisko</label>
+			</div>
+			<div class="input-box">
+				<input type="text" name="pesel" autocomplete="off" required />
+				<label for="">Pesel</label>
+			</div>
+			<div class="input-box">
+				<input type="text" name="login" autocomplete="off" required />
+				<label for="">Login</label>
+			</div>
+			<div class="input-box">
+				<input type="password" name="haslo" autocomplete="off" required />
+				<label for="">Hasło</label>
+			</div>
+			<div class="input-box">
+				<input type="password" name="haslo2" autocomplete="off" required />
+				<label for="">Powtórz hasło</label>
+			</div>
+			
+			<form action="zarejestruj.php" method="post">
+				<input type="submit" value="Zarejestruj się" />
+			</form>
+			
+			<?php
 			// pesel
 			if(isset($_SESSION['err_p'])){
 				echo '<div class="error">'.$_SESSION['err_p'].'</div>';
@@ -144,9 +222,12 @@
 				unset($_SESSION['err_o']);
 			}
 		
-		?>
+			?>
 		
-	</form>
+		
+			
+		</form>
+	</div>
 
 
 </body>

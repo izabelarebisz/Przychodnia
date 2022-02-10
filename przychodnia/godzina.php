@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	ob_start();
 	
 	if(isset($_SESSION['niezalogowano'])){
 		header('Location: index.php');
@@ -23,7 +24,15 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
 	<style type-"text/css">
+		body{
+			margin: 0;
+			padding: 0;
+			font-family: sans-serif;
+			background-image: url(gradient.jpg);
+			background-size: cover;
+		}
 		#datepicker{
 			width: 200px;
 			margin: 20px 20px 20px 0px;
@@ -41,55 +50,15 @@
 		.main{
 			margin-left: 40px;
 		}
+		.radioBox{
+			margin-bottom: 30px;
+			margin-top: 30px;
+		}
 	
 
 
 	</style>
-	<style media="screen">
-	  body{
-		margin: 0;
-		padding: 0;
-		font-family: sans-serif;
-		background-image: url(gradient.jpg);
-		background-size: cover;
-		color: #fff;
-	  }
-	  .box{
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%,-50%);
-		width: 400px;
-		padding: 40px;
-		background: rgba(0, 0, 0, 0.6);
-		box-sizing: border-box;
-		box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
-		border-radius: 10px;
-		text-align: center;
-	  }
-	  .radioBox{
-		  margin-bottom: 30px;	
-		  
-	  }
-	  input[type="radio"]:label {
-		  color: #fff;
-	  }
-	  .buttonZ{
-		  text-align: center;
-	  }
-	  .box h2, h3{
-		margin: 0 0 30px;
-		padding: 0px;
-		color: #fff;
 	
-	  }
-	  .row{
-		   display: flex;
-	  }
-	  .column{
-		  flex: 25%;
-	  }
-	  </style>
 </head>
 
 <body>	
@@ -102,15 +71,15 @@
 		$data = $_SESSION['data'];
 		$selected = $_SESSION['selected'];
 		
-		// informacje
+		// informacje o lekarzu
 		
-		echo "<div class='box'>";
+		echo "<div class='main'>";
 		$specjalista = $polaczenie->query("SELECT * FROM lekarze WHERE id_lekarza='$selected' ");
 		while($rows = $specjalista->fetch_assoc()){
-			echo "<h2>dr ".$rows['imie']." ".$rows['nazwisko']."</h2>";
+			echo "<h2>".$rows['imie']." ".$rows['nazwisko']."</h2>";
 			echo "<h3>".$rows['specjalnosc']."</h3>";
 		}
-		echo "<h2>Dzień '$data'</h2>";
+		echo "<h2>Dzień '$data'</h2></div>";
 
 		
 		$id_pacjenta = $_SESSION['id_pacjenta'];
@@ -162,26 +131,22 @@
 		//$_SESSION['godzina'] = $godzina;
 	?>
 	
-	
+	<div class="main">
 		<form action="" method="POST">
-		
 			<?php
-			
-			echo "<div class='radioBox'>";
-			echo "<table>";
-				for($i=0;$i<sizeof($dostepne_godziny);$i++){
-					
-					if($i!=0 && $i%4==0) echo "</tr>";
-					if($i%4==0 && $i!=sizeof($dostepne_godziny)) echo "<tr>";
-					echo "<td width='100px'><input type='radio' name='godz' value=". $dostepne_godziny[$i] .">&nbsp;&nbsp;" . $dostepne_godziny[$i] . "</td>";
-				}			
-			echo "</tr></table></div>";
+				echo "<div class='radioBox'>";
+				echo "<table>";
+					for($i=0;$i<sizeof($dostepne_godziny);$i++){
+						
+						if($i!=0 && $i%4==0) echo "</tr>";
+						if($i%4==0 && $i!=sizeof($dostepne_godziny)) echo "<tr>";
+						echo "<td width='100px'><input type='radio' name='godz' value=". $dostepne_godziny[$i] .">&nbsp;&nbsp;" . $dostepne_godziny[$i] . "</td>";
+					}			
+				echo "</tr></table></div>";		
+						
 			?>
-			<div class="buttonZ">
-				<button name="Button" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"> Zarezerwuj </button>
-			</div>
-		</div>
 
+			<!--<input type="submit" name="zarezerwuj" value="Zarezerwuj termin wizyty">==>
 			<!-- Modal -->
 			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			  <div class="modal-dialog" role="document">
@@ -200,7 +165,7 @@
 								Specjalista: </br>
 								<hr>
 								Data: </br>
-								<!--Godzina: </br>-->
+								<!-- Godzina: </br> -->
 							  </div>
 							  <div class="col-4 col-sm-6">
 								<?php
@@ -215,10 +180,8 @@
 									echo $s."</br>";
 									echo "<hr>";
 									echo $d."</br>";
-									//echo $g."</br>";
-								
-								?>
-							  </div>
+							?> 
+								</div>
 							</div>
 						</div>				
 				  </div>
@@ -229,12 +192,14 @@
 				</div>
 			  </div>
 			</div>
-			<!-- koniec modalu -->
 			
+			<button name="Button" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"> Zarezerwuj termin wizyty </button>
 		</form>
 	</div>
-
-	<?php
+	
+	
+	
+		<?php
 	
 		if(isset($_POST['zarezerwuj'])){	
 			if(!empty($_POST['godz'])) {
@@ -249,12 +214,14 @@
 				$id_pacjenta = $_SESSION['id_pacjenta'];
 				$data = $_SESSION['data'];
 				$godzina = $_SESSION['godzina'];
-				echo $selected." ".$id_pacjenta." ".$data." ".$godzina;
+				//echo $selected." ".$id_pacjenta." ".$data." ".$godzina;
 				$polaczenie->query("INSERT INTO wizyty VALUES (null, '$selected', '$id_pacjenta', '$data', '$godzina')");
 				
 				$polaczenie->close();
 				
-				header('Location: strona_glowna.php');
+				
+				header('Location: wizyta_zapisana.php');
+				
 			} else {
 				echo "Proszę wybrać godzinę";
 			}

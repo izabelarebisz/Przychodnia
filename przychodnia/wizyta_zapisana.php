@@ -19,7 +19,7 @@
 		background-image: url(gradient.jpg);
 		background-size: cover;
 	  }
-	  p, input[type="submit"]{
+	  p{
 		  margin-left: 20px;
 	  }
 	</style>
@@ -27,11 +27,8 @@
 
 <body>
 
-<p> Rejestracja przebiegła pomyślnie :) </p>
+<p> Wizyta została umówiona. Możesz przejrzeć swoje wizyty w karcie "moje wizyty". </p>
 
-<form action="index.php" method="post">
-	<input type="submit" value="Zaloguj się" />
-</form>
-
+<p><a href="strona_glowna.php">Wróć na stronę główną</a></p>
 </body>
 </html>

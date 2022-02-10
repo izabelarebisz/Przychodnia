@@ -75,6 +75,9 @@
 	  .box .input-box{
 		position: relative;
 	  }
+	  .margin{
+		  margin-top: 30px;
+	  }
 	  </style>
 </head>
 
@@ -93,9 +96,7 @@
 					
 					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 					
-				</div>
-			
-		
+				</div>	
 				
 					
 				<!-- wybór lekarza -->	
@@ -119,7 +120,7 @@
 				</select>	
 				
 				<!-- znajdź termin wizyty -->	
-				<div>
+				<div class="margin">
 					
 					<input type="submit" name="submit" value="Znajdź termin wizyty"/>
 					
