@@ -24,10 +24,13 @@
 	<title>Przychodnia</title>
 
 	<style type-"text/css">
-		.main{
-			margin-left: 40px;
-		}
-
+		body{
+			margin: 0;
+			padding: 0;
+			font-family: sans-serif;
+			background-image: url(gradient.jpg);
+			background-size: cover;
+		  }
 
 	</style>
 	  
@@ -36,68 +39,10 @@
 <body>
 	
 	<div class="main">
-		
 	
-		
 		
 	</div>
-	
-	
-	
-	<?php
-	
-		require_once "polaczenie.php";
-		$polaczenie = @new mysqli($host,$db_user,$db_password,$db_name);
-	
-		
-		// aktualizacja bazy danych - usunięcie wizyt z minionych dni
-			$now = new DateTime();
-			$now = $now->format('m/d/Y'); 
-			$nieaktualne = $polaczenie->query("SELECT * FROM wizyty");					
-			while($rows = $nieaktualne->fetch_assoc()) {
-				$kiedy = $rows['data']; // sprawdzamy datę każdej wizyty
-				if(strtotime($kiedy)<strtotime($now)) $polaczenie->query("DELETE FROM wizyty WHERE data='$kiedy' "); // i usuwamy nieaktualne
-			} 
-			
-			
-		// pobieramy wybraną przez pacjenta datę($data) i lekarza($selected)
-		if(isset($_POST['submit'])){
-			if(!empty($_POST['Lekarze'])) {
-				// zaznaczony lekarz
-				$selected = $_POST['Lekarze'];
-				//echo '<p>Wybrany lekarz: '.$selected.'</p>';
-				// zaznaczona data
-				$data = $_POST['Data'];
-				//echo '<p>Wybrana data: '.$data.'</p>';
-				
-				$_SESSION['data'] = $data;
-				$_SESSION['selected'] = $selected;
-				
-				echo $selected;
-				$dane = $polaczenie->query("SELECT * FROM lekarze WHERE id_lekarza='$selected'");					
-				while($rows = $dane->fetch_assoc()) {
-					$_SESSION['kto'] = $rows['imie']." ".$rows['nazwisko'];
-					$_SESSION['spec'] = $rows['specjalnosc'];
-				}
-	
-	
-				$polaczenie->close();
-				header('Location: godzina.php');
-			
-			} else {
-				echo 'Wybierz specjalistę.';
-				$polaczenie->close();
-			}			
-		}
-				
-		
-		
-		function czyWolna($zajete,$sprawdz){
-			for($i=0;$i<sizeof($zajete);$i++){
-				if($zajete[$i]==$sprawdz) return 0;
-			} return 1; // tej godziny nie znaleziono wśród zajętych - jest wolna - może zostać wyświetlona jako jedna z proponowanych
-		}
-	?>
+
 	
 
 </body>

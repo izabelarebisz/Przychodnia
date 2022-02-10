@@ -190,16 +190,26 @@
 				$_SESSION['data'] = $data;
 				$_SESSION['selected'] = $selected;
 				
-				echo $selected;
+				
+				//echo $selected;
 				$dane = $polaczenie->query("SELECT * FROM lekarze WHERE id_lekarza='$selected'");					
-				while($rows = $dane->fetch_assoc()) {
+				while($rows = $dane->fetch_assoc()) {			
 					$_SESSION['kto'] = $rows['imie']." ".$rows['nazwisko'];
 					$_SESSION['spec'] = $rows['specjalnosc'];
 				}
-	
-	
+				
+				$pacjent = $_SESSION['id_pacjenta'];
+				$czyWizyta = $polaczenie->query("SELECT * FROM wizyty WHERE id_lekarza='$selected' AND id_pacjenta='$pacjent'");
+				$ile = $czyWizyta->num_rows;
+				
 				$polaczenie->close();
-				header('Location: godzina.php');
+				
+				if($ile>0) {
+					echo 'Jesteś już umówiony do wybranego lekarza. Nie można zarezerwować więcej terminów.';
+				} else{
+					header('Location: godzina.php');
+					
+				}
 			
 			} else {
 				echo 'Wybierz specjalistę.';

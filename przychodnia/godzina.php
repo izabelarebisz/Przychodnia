@@ -7,8 +7,10 @@
 		exit();
 	}
 	
-	echo "<p>Witaj ".$_SESSION['uzytkownik'].'![<a href="logout.php">Wyloguj się</a>]</p>';
-	echo "<p>Pesel ".$_SESSION['pesel']."!";
+	echo "Witaj ".$_SESSION['uzytkownik'].'!</br>';	
+	echo "<a href='moje_wizyty.php'>Moje wizyty</a></br>";
+	echo "<a href='moje_informacje.php'>Moje informacje</a></br>";
+	echo "<a href='logout.php'>Wyloguj się</a>";
 	
 	
 ?>
