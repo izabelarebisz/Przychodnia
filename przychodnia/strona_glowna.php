@@ -121,7 +121,7 @@
 							$id = $rows['id_lekarza'];
 							$imie = $rows['imie'];
 							$nazwisko = $rows['nazwisko'];
-							echo "<option value='$id' style='background:lightblue;'>dr $imie $nazwisko</option>";
+							echo "<option value='$id'>dr $imie $nazwisko</option>";
 						}
 						
 						$polaczenie->close();

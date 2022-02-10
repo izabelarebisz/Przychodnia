@@ -197,6 +197,7 @@
 			
 			<button name="Button" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"> Zarezerwuj termin wizyty </button>
 		</form>
+		<p><a href="strona_glowna.php">Wróć na stronę główną</a></p>
 	</div>
 	
 	
