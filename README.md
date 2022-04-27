@@ -38,11 +38,9 @@ także tych minionych.
 
 Baza danych składa się z 3 tabeli:
 
-|-To będzie na środku-|
-
 ![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/pacjenci.png)
 
 ![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/lekarze.png)
 
-|-![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/wizyty.png)-|
+![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/wizyty.png)
 
