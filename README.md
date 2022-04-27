@@ -2,10 +2,10 @@
 Aplikacja mobilna webowa umożliwiająca zapisanie się przez pacjenta na wizytę u wybranego lekarza w jednym z dostępnych terminów. Weryfikacja użytkowników następuje przez przeszukanie bazy sql zawierającej dane wraz z zaszyfrowanymi hasłami, więc jeśli nie posiadamy jeszcze konta klikamy w "zarejestruj się" i podajemy niezbędne dane.
 
 ## Sposób działania
-
-
-![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/schemat.png)
-
+<p align="center">
+  <img src="https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/schemat.png"><br>
+  <em>Rysunek 1: Schemat plików użytych do projektu</em>
+</p>
 
 * index.php – okno logowania do aplikacji, należy wpisać login i hasło
 (strona nie przepuści nas dopóki nie podamy prawidłowych danych).
@@ -38,9 +38,22 @@ także tych minionych.
 
 Baza danych składa się z 3 tabeli:
 
-![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/pacjenci.png)
+* pacjenci:
+<p align="center">
+  <img src="https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/pacjenci.png"><br>
+  <em>Rysunek 2: Struktura tabeli pacjenci</em>
+</p>
 
-![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/lekarze.png)
+* lekarze:
+<p align="center">
+  <img src="https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/lekarze.png"><br>
+  <em>Rysunek 3: Struktura tabeli lekarze</em>
+</p>
 
-![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/wizyty.png)
+* wizyty:
+<p align="center">
+  <img src="https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/wizyty.png"><br>
+  <em>Rysunek 4: Struktura tabeli wizyty</em>
+</p>
+
 
