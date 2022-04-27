@@ -25,6 +25,7 @@ na wizytę do wybranego lekarza to zostaje dopisany do tabeli wizyty.
 * zaloguj.php i wyloguj.php – pliki w których wykonywane są operacje
 logowania i wylogowania z aplikacji. Hasła są hashowane, dodatkowo
 logowanie jest zabezpieczone przed tzw. wstrzykiwaniem sql.
+
 Dodatkowo przy każdym uruchomieniu baza danych jest aktualizowana i
 usuwane są wizyty, które się już odbyły.
 
