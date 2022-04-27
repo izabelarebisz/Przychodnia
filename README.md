@@ -20,7 +20,7 @@ lekarzy zatrudnionych w przychodni. Użytkownik wybiera interesujący
 go termin oraz lekarza i klika w przycisk przenoszący go do kolejnej
 strony.
 * godzina.php – z bazy pobierane są rekordy w których występuje wybrany wcześniej lekarz i jednocześnie wybrana data. Program znajduje
-godziny, które dany lekarz w danym dniu ma już zarezerwowane i udostępnia listę pozostałych. Użytkownik wybiera dowolną z proponowanych godzin i jeśli nie zostanie w bazie znaleziony jako umówiony już
+godziny, które dany lekarz w danym dniu ma już zarezerwowane i udostępnia listę pozostałych. Użytkownik wybiera dowolną z proponowanych godzin i jeśli nie zostanie w bazie znaleziony jako umówiony już
 na wizytę do wybranego lekarza to zostaje dopisany do tabeli wizyty.
 * zaloguj.php i wyloguj.php – pliki w których wykonywane są operacje
 logowania i wylogowania z aplikacji. Hasła są hashowane, dodatkowo
@@ -38,9 +38,11 @@ także tych minionych.
 
 Baza danych składa się z 3 tabeli:
 
-![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/lekarze.png)
+|-To będzie na środku-|
 
 ![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/pacjenci.png)
 
-![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/wizyty.png)
+![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/lekarze.png)
+
+|-![alt text](https://github.com/izabreb808/DoctorAppointmentSystem/blob/main/pliki%20do%20dokumentacji/wizyty.png)-|
 
